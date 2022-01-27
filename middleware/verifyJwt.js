@@ -7,9 +7,16 @@ module.exports = async (req, res, next) => {
   if (!bearerHeader) return res.status(403).end();
 
   const token = bearerHeader.split(" ")[1];
+  const tokenCheck = jwt.verify(token, process.env.secret, (err, decoded) => {
+    if (err) return false;
+    return true;
+  });
+
   const response = await data.getUsersToken({ token });
   const result = response.filter((obj) => obj.token === token);
 
-  if (!result.length || !jwt.verify(result[0], process.env.secret)) return res.status(403).end();
-  next();
+  if (!!result.length && tokenCheck) {
+    return next();
+  }
+  return res.status(403).end();
 };
