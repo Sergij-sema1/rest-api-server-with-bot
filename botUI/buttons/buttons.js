@@ -1,7 +1,7 @@
 module.exports = {
   buttonsGenerator(list) {
     const values = list.map((item) => {
-      return [{ text: item.name?.trim() || item.taste_name?.trim() }];
+      return [{ text: item.name || item.taste_name }];
     });
     return { reply_markup: { keyboard: values } };
   },
@@ -10,10 +10,10 @@ module.exports = {
       keyboard: [
         [
           {
-            text: "да",
+            text: 'да',
           },
           {
-            text: "нет",
+            text: 'нет',
           },
         ],
       ],
@@ -24,12 +24,12 @@ module.exports = {
       keyboard: [
         [
           {
-            text: "Все правильно 😊",
+            text: 'Все правильно 😊',
           },
         ],
         [
           {
-            text: "ой, отмена 🤭",
+            text: 'ой, отмена 🤭',
           },
         ],
       ],

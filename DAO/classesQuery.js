@@ -3,10 +3,10 @@ const pool = require("./DBConnection");
 const query = util.promisify(pool.query).bind(pool);
 class ProductsQuery {
   getProductModels() {
-    return query("select distinct name,price,model_id from products;", []);
+    return query("SELECT DISTINCT name,price,model_id FROM products;", []);
   }
   addProductModels({ name, price, taste_name, model_id }) {
-    return query("insert into products (name,price,taste_name,model_id)values(?,?,?,?);", [
+    return query("INSERT INTO products (name,price,taste_name,model_id)VALUES(?,?,?,?);", [
       name,
       price,
       taste_name,
@@ -14,13 +14,13 @@ class ProductsQuery {
     ]);
   }
   deleteProductModels({ name, taste_name }) {
-    return query("delete  FROM products WHERE  name=? AND  taste_name=?;", [name, taste_name]);
+    return query("DELETE  FROM products where  name=? AND  taste_name=?;", [name, taste_name]);
   }
   getProductTastes = ({ productId }) => {
-    return query("select taste_name from products WHERE model_id=?;", [productId]);
+    return query("SELECT taste_name from products where model_id=?;", [productId]);
   };
   updateProductsPrice({ price, name }) {
-    return query("update products set price=? WHERE name=?;", [price, name]);
+    return query("UPDATE products set price=? WHERE name=?;", [price, name]);
   }
   getProductDeliveryMethods() {
     return query("SELECT * FROM delivery;", []);
@@ -33,6 +33,23 @@ class ProductsQuery {
   }
   updateDeliveryCount(count) {
     return query("UPDATE  salesCount SET count=? WHERE id=0;", [count]);
+  }
+
+  paymentStatusChange({ status }) {
+    return query("UPDATE  payment SET status=? WHERE id=1;", [status]);
+  }
+  checkPaymentStatus() {
+    return query("SELECT  status FROM payment WHERE id=1; ", []);
+  }
+
+  addTemporaryOrderStorage({ userOrders }) {
+    return query("  INSERT INTO blockedOrders (DATA)VALUES(?);", [userOrders]);
+  }
+  getTemporaryOrderStorage() {
+    return query("SELECT * FROM blockedOrders ;", []);
+  }
+  deleteTemporaryOrderStorageData() {
+    return query("TRUNCATE TABLE blockedOrders ;", []);
   }
 }
 class UsersQuery {

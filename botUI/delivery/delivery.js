@@ -1,5 +1,5 @@
-const data = require("../../DAO/classesQuery").ProductsQuery;
-const logger = require("../../controller/errorsLogger");
+const data = require('../../DAO/classesQuery').ProductsQuery;
+const logger = require('../../controller/errorsLogger');
 
 module.exports = {
   async getDeliveryMethods(positionCounter) {
@@ -8,7 +8,7 @@ module.exports = {
       // customDelivery update delivery type list if user select more one products
       const customDelivery = (list) => {
         if (positionCounter > 2) {
-          list[0].name = "Бесплатно (Минск)🎁";
+          list[0].name = 'Бесплатно (Минск)🎁';
           list[0].price = 0;
         }
         return list;
@@ -16,7 +16,7 @@ module.exports = {
       return customDelivery(response);
     } catch (error) {
       logger({ error });
-      return [{ name: "Ошибка получения метода доставки" }];
+      return [{ name: 'Ошибка получения метода доставки' }];
     }
   },
 

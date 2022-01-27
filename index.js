@@ -1,6 +1,11 @@
 require('dotenv').config();
+require('https')
+  .createServer()
+  .on('request', function (req, res) {
+    res.end('');
+  });
+const port = process.env.PORT || 5000;
 const express = require('express');
-const port = process.env.PORT || 3000;
 const router = require('./routes/routes');
 const morgan = require('morgan');
 const cors = require('cors');
